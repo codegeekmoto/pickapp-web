@@ -17,7 +17,7 @@ use App\Resources\ErrorResource;
 
 class UserController extends Controller {
 
-  public function register(Request $request) 
+  public function create(Request $request) 
   {
     $validator = Validator::make($request->all(), [
       'f_name' => ['max:255', 'string'],
@@ -51,33 +51,6 @@ class UserController extends Controller {
             ->send(new RegisterMail('Pick App', $request->f_name));
 
     return new UserResource($user);
-  }
-
-  public function login(Request $request)
-  {
-    $validator = Validator::make($request->all(), [
-      'email'   => 'required',
-      'password' => 'required'
-    ]);
-
-    if ($validator->fails()) {
-        // The given data did not pass validation
-        return response()->json([
-            "status" => false,
-            "message" => 'Invalid credentials',
-            "errors" => $validator->errors()
-        ], 401);
-    }
-
-    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-      return new UserResource(Auth::user());
-    }else{
-      return response()->json([
-        "status" => false,
-        'message' => 'Invalid credentials',
-      ]
-      , 401);
-    }
   }
 
   public function getAll(Request $request)

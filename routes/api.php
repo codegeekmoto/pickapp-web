@@ -23,8 +23,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  */
 Route::prefix('user')->group(function() {
 
-    Route::post('/register', 'App\Http\Controllers\Api\UserController@register');
-    Route::post('/login', 'App\Http\Controllers\Api\UserController@login');
+    Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
+    Route::post('/reset', 'App\Http\Controllers\Api\AuthController@resetPassword');
+
+    Route::post('/create', 'App\Http\Controllers\Api\UserController@register');
     Route::get('/getall', 'App\Http\Controllers\Api\UserController@getAll');
     
 });
