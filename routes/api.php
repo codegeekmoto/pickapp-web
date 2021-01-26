@@ -26,7 +26,7 @@ Route::prefix('user')->group(function() {
     Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
     Route::post('/reset', 'App\Http\Controllers\Api\AuthController@resetPassword');
 
-    Route::post('/create', 'App\Http\Controllers\Api\UserController@register');
+    Route::post('/create', 'App\Http\Controllers\Api\UserController@create');
     Route::get('/getall', 'App\Http\Controllers\Api\UserController@getAll');
     
 });
