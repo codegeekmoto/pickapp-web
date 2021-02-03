@@ -31,7 +31,7 @@ Route::prefix('auth')->group(function() {
 // User
 
 Route::prefix('user')->group(function() {
-    Route::put('/create', 'App\Http\Controllers\Api\UserController@create');
+    Route::post('/create', 'App\Http\Controllers\Api\UserController@create');
 
     Route::middleware('auth:api')->prefix('update')->group(function() {
         Route::post('/email', 'App\Http\Controllers\Api\UserController@updateEmail');
