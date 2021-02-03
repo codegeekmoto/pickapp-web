@@ -18,16 +18,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/**
- * User auth
- */
-Route::prefix('user')->group(function() {
 
+
+// Auth
+Route::prefix('auth')->group(function() {
     Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
     Route::post('/reset', 'App\Http\Controllers\Api\AuthController@resetPassword');
+    Route::post('/resend-otp', 'App\Http\Controllers\Api\AuthController@resendOTP');
+    Route::post('/change-password', 'App\Http\Controllers\Api\AuthController@changePassword');
+});
 
-    Route::post('/create', 'App\Http\Controllers\Api\UserController@create');
-    Route::get('/getall', 'App\Http\Controllers\Api\UserController@getAll');
-    
+// User
+
+Route::prefix('user')->group(function() {
+    Route::put('/create', 'App\Http\Controllers\Api\UserController@create');
+
+    Route::middleware('auth:api')->prefix('update')->group(function() {
+        Route::post('/email', 'App\Http\Controllers\Api\UserController@updateEmail');
+        Route::post('/phone', 'App\Http\Controllers\Api\UserController@updatePhone');
+        Route::post('/address', 'App\Http\Controllers\Api\UserController@updateAddress');
+    });    
 });
 
