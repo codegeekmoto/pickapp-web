@@ -20,21 +20,21 @@ class UserController extends Controller {
   public function create(Request $request) 
   {
     $validator = Validator::make($request->all(), [
-      'f_name' => ['max:255', 'string'],
-      'l_name' => ['max:255', 'string'],
-      'email' => ['email', 'max:255', 'unique:users,email', 'string'],
-      'phone' => ['max:255', 'string', 'unique:users,phone'],
-      'password' => ['string', 'min:6'],
-      // 'confirm_password' => ['required_with:password', 'same:password'],
+      'f_name' => ['required', 'max:255', 'string'],
+      'l_name' => ['required', 'max:255', 'string'],
+      'email' => ['required', 'email', 'max:255', 'unique:users,email', 'string'],
+      'phone' => ['required', 'max:255', 'string', 'unique:users,phone'],
+      'password' => ['required', 'string', 'min:6'],
+      'address' => ['required', 'string']
     ]);
 
     if ($validator->fails()) {
       // The given data did not pass validation
-      return response()->json(['data' => [
+      return response()->json([
         "status" => false,
         "message" => 'Invalid details!',
         "errors" => $validator->errors()
-      ]], 200);
+      ], 200);
     }
  
     $user = new User();
@@ -53,15 +53,67 @@ class UserController extends Controller {
     return new UserResource($user);
   }
 
-  public function getAll(Request $request)
+  public function updateEmail(Request $request)
   {
-    $user = User::all();
-    return UserResource::collection($user);
+    $validator = Validator::make($request->all(),[ 
+      'email' => ['required', 'email', 'max:255', 'unique:users,email', 'string']
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        "status" => false,
+        "message" => 'Invalid details!',
+        "errors" => $validator->errors(),
+      ], 200);
+    }
+
+    $user = Auth::user();
+    $user->email = $request->email;
+    $user->save();
+
+    return new UserResource($user);
   }
 
-  public function update(Request $request)
+  public function updatePhone(Request $request)
   {
-    echo '';
+    $validator = Validator::make($request->all(), [
+      'phone' => ['required', 'max:255', 'string', 'unique:users,phone']
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        "status" => false,
+        "message" => 'Invalid details!',
+        "errors" => $validator->errors()
+      ], 200);
+    }
+
+    $user = Auth::user();
+    $user->phone = $request->phone;
+    $user->save();
+
+    return new UserResource($user);
+  }
+
+  public function updateAddress(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'address' => ['required', 'string']
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        "status" => false,
+        "message" => 'Invalid details!',
+        "errors" => $validator->errors()
+      ], 200);
+    }
+
+    $user = Auth::user();
+    $user->address = $request->address;
+    $user->save();
+
+    return new UserResource($user);
   }
 
 }

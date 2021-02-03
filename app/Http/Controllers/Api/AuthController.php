@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PasswordResetResource;
 use App\Mail\PasswordResetMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use App\Resources\UserResource;
 
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\PasswordReset;
 use App\Models\User;
@@ -25,7 +26,6 @@ class AuthController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            // The given data did not pass validation
             return response()->json([
                 "status" => false,
                 "message" => 'Invalid credentials',
@@ -33,13 +33,16 @@ class AuthController extends Controller {
             ], 401);
         }
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return new UserResource(Auth::user());
-        }else{
-            return response()->json([
-                "status" => false,
-                'message' => 'Invalid credentials',
-            ],  401);
+        $user = User::where('email', $request->email)->first();
+
+        if ($user != null) {
+            if (Hash::check($request->password, $user->password)) {
+                $token = Str::random(60);
+                $user->api_token = hash('sha256', $token);
+                $user->save();
+                
+                return new UserResource($user);
+            }
         }
     }
 
@@ -79,5 +82,67 @@ class AuthController extends Controller {
             ->send(new PasswordResetMail($code, $user->f_name));
 
         return new PasswordResetResource($passwordReset);
+    }
+
+    public function resendOTP(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id'   => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => false,
+                "message" => 'Invalid credentials',
+                "errors" => $validator->errors()
+            ], 401);
+        }
+
+        $passwordReset = PasswordReset::find($request->id);
+
+        if ($passwordReset == null) {
+            return response()->json([
+                "status" => false,
+                "message" => 'Invalid credentials',
+                "errors" => $validator->errors()
+            ], 401);
+        }
+
+        return new PasswordResetResource($passwordReset);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required'
+        ]);
+    
+        if ($validator->fails() || !isset($request->otp_code) || !isset($request->email)) {
+            return response()->json([
+                "status" => false,
+                "message" => 'Invalid credentials',
+                "errors" => $validator->errors()
+            ], 401);
+        }
+
+        $resetPassword = PasswordReset::where('code', $request->otp_code)
+            ->where('email', $request->email)
+            ->first();
+
+        if ($resetPassword == null) {
+            return response()->json([
+                "status" => false,
+                "message" => 'Invalid credentials'
+            ], 401);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            "status" => true,
+            "message" => 'Change password success.',
+        ], 201);
     }
 }

@@ -16,6 +16,7 @@ class PasswordResetResource extends JsonResource
     public function toArray($request)
     {
         return ['password_reset' => [
+            'id'            => $this->id,
             'email'         => $this->email,
             'code'          => $this->code,
             'token'         => $this->token,
