@@ -18,6 +18,9 @@ class UpdateUserAddToken extends Migration
                 ->unique()
                 ->nullable()
                 ->default(null);
+            $table->string('nbi_id')->nullable();
+            $table->string('dti_id')->nullable();
+            $table->string('type')->nullable();
             $table->string('address')->nullable();
         });
     }
@@ -32,6 +35,9 @@ class UpdateUserAddToken extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('api_token');
             $table->dropColumn('address');
+            $table->dropColumn('type');
+            $table->dropColumn('nbi_id');
+            $table->dropColumn('dti_id');
         });
     }
 }
