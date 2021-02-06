@@ -25,7 +25,8 @@ class UserController extends Controller {
       'email' => ['required', 'email', 'max:255', 'unique:users,email', 'string'],
       'phone' => ['required', 'max:255', 'string', 'unique:users,phone'],
       'password' => ['required', 'string', 'min:6'],
-      'address' => ['required', 'string']
+      'address' => ['required', 'string'],
+      'type' => ['required', 'string']
     ]);
 
     if ($validator->fails()) {
@@ -43,6 +44,9 @@ class UserController extends Controller {
     $user->f_name = $request->f_name;
     $user->l_name = $request->l_name;
     $user->phone = $request->phone;
+    $user->type = $request->type;
+    $user->nbi_id = isset($request->nbi_id) ? $request->nbi_id : null;
+    $user->dti_id = isset($request->dti_id) ? $request->dti_id : null;
     $user->picture = $request->picture;
 
     $user->save();
