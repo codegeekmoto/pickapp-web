@@ -27,6 +27,7 @@ class UserResource extends JsonResource {
                 'nbi_id'      => $this->nbi_id,
                 'dti_id'      => $this->dti_id,
                 'api_token'   => $this->api_token,
+                'address'   => $this->address,
                 'created_at'  => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::parse($this->updated_at)->format('Y-m-d H:i:s')
             ]
