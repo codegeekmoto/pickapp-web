@@ -43,6 +43,11 @@ class AuthController extends Controller {
                 
                 return new UserResource($user);
             }
+        } else {
+            return response()->json([
+                "status" => false,
+                "message" => 'Invalid credentials',
+            ], 401);
         }
     }
 
