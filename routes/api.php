@@ -37,6 +37,7 @@ Route::prefix('user')->group(function() {
         Route::post('/email', 'App\Http\Controllers\Api\UserController@updateEmail');
         Route::post('/phone', 'App\Http\Controllers\Api\UserController@updatePhone');
         Route::post('/address', 'App\Http\Controllers\Api\UserController@updateAddress');
+        Route::post('/change-password', 'App\Http\Controllers\Api\UserController@changePassword');
     });    
 });
 
