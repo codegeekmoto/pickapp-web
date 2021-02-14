@@ -120,4 +120,36 @@ class UserController extends Controller {
     return new UserResource($user);
   }
 
+  public function changePassword(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'new_password' => ['required', 'string'],
+      'current_password' => ['required', 'string']
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        "status" => false,
+        "message" => 'Invalid details!',
+        "errors" => $validator->errors()
+      ], 200);
+    }
+
+    $user = User::where('id', Auth::user()->id)->first();
+
+    if ($user != null) {
+      if (Hash::check($request->current_password, $user->password)) {
+          $user->password = Hash::make($request->new_password);
+          $user->save();
+          
+          return new UserResource($user);
+      }
+    }
+
+    return response()->json([
+      "status" => false,
+      "message" => 'Invalid credentials',
+    ], 401);
+  }
+
 }
