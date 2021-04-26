@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Resources;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
 
-class UserResource extends JsonResource {
-
-  /**
+class UserResource extends JsonResource
+{
+    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -33,5 +33,4 @@ class UserResource extends JsonResource {
             ]
         ];
     }
-
 }
