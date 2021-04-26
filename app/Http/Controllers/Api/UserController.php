@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\User;
-use App\Resources\UserResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mails\RegisterMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use App\Resources\ErrorResource;
+
+use App\Models\User;
 
 class UserController extends Controller {
 
@@ -26,7 +26,7 @@ class UserController extends Controller {
       'phone' => ['required', 'max:255', 'string', 'unique:users,phone'],
       'password' => ['required', 'string', 'min:6'],
       'address' => ['required', 'string'],
-      'type' => ['required', 'string']
+      //'type' => ['required', 'string']
     ]);
 
     if ($validator->fails()) {
