@@ -22,7 +22,8 @@ class AuthController extends Controller {
     {
         $validator = Validator::make($request->all(), [
             'email'   => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'type' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -33,7 +34,9 @@ class AuthController extends Controller {
             ], 401);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+                    ->where('type', $request->type)
+                    ->first();
 
         if ($user != null) {
             if (Hash::check($request->password, $user->password)) {
