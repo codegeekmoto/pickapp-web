@@ -26,7 +26,7 @@ class UserController extends Controller {
       'phone' => ['required', 'max:255', 'string', 'unique:users,phone'],
       'password' => ['required', 'string', 'min:6'],
       'address' => ['required', 'string'],
-      //'type' => ['required', 'string']
+      'type' => ['required', 'string']
     ]);
 
     if ($validator->fails()) {
