@@ -20,16 +20,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-// Auth
-Route::prefix('auth')->group(function() {
+/*******************************************************************
+ * AUTH
+ *******************************************************************/Route::prefix('auth')->group(function() {
     Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
     Route::post('/reset', 'App\Http\Controllers\Api\AuthController@resetPassword');
     Route::post('/resend-otp', 'App\Http\Controllers\Api\AuthController@resendOTP');
     Route::post('/change-password', 'App\Http\Controllers\Api\AuthController@changePassword');
 });
 
-// User
-
+/*******************************************************************
+ * USER
+ *******************************************************************/
 Route::prefix('user')->group(function() {
     Route::post('/create', 'App\Http\Controllers\Api\UserController@create');
 
@@ -44,10 +46,17 @@ Route::prefix('user')->group(function() {
 /*******************************************************************
  * SELLER
  *******************************************************************/
-
  // Product
- Route::prefix('product')->group(function() {
-    
+ Route::middleware('auth:api')->prefix('product')->group(function() {
+    // Route::post('/add', 'App\Http\Controllers\Api\UserController@updateAddress');
+ });
 
+ Route::middleware('auth:api')->prefix('store')->group(function() {
+    Route::post('/create', 'App\Http\Controllers\Api\StoreController@create');
+ });
+
+ Route::middleware('auth:api')->prefix('product')->group(function() {
+    Route::post('/add', 'App\Http\Controllers\Api\ProductController@add');
+    Route::get('/all', 'App\Http\Controllers\Api\ProductController@getAll');
  });
 

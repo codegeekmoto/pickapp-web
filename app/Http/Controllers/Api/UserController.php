@@ -51,8 +51,8 @@ class UserController extends Controller {
 
     $user->save();
     // Send email notification to successfull registered user
-    Mail::to($request->email)
-            ->send(new RegisterMail('Pick App', $request->f_name));
+    // Mail::to($request->email)
+    //         ->send(new RegisterMail('Pick App', $request->f_name));
 
     return new UserResource($user);
   }
