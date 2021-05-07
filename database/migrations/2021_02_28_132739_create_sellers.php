@@ -16,7 +16,7 @@ class CreateSellers extends Migration
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->boolean('activited');
+            $table->boolean('activited')->nullable();
             $table->timestamps();
         });
     }

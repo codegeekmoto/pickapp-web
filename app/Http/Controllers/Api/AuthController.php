@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Models\PasswordReset;
 use App\Models\User;
+use App\Models\Store;
 
 class AuthController extends Controller {
 
@@ -43,6 +44,13 @@ class AuthController extends Controller {
                 $token = Str::random(60);
                 $user->api_token = hash('sha256', $token);
                 $user->save();
+
+                $user->store = null;
+
+                if (strtolower($user->type) === 'seller') {
+                    $store = Store::where('seller_id', $user->id)->first();
+                    $user->store = $store;
+                }
                 
                 return new UserResource($user);
             }

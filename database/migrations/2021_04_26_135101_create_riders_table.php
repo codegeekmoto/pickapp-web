@@ -15,8 +15,8 @@ class CreateRidersTable extends Migration
     {
         Schema::create('riders', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('license');
+            $table->integer('user_id')->nullable();
+            $table->string('license')->nullable();
             $table->timestamps();
         });
     }
