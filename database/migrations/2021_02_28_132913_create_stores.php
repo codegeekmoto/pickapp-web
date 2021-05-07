@@ -16,13 +16,13 @@ class CreateStores extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
             $table->integer('seller_id');
-            $table->string('dti');
-            $table->string('name');
-            $table->string('description');
-            $table->string('business_permit');
-            $table->string('address');
-            $table->string('location');
-            $table->boolean('activited');
+            $table->string('dti')->nullable();
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->string('business_permit')->nullable();
+            $table->string('address')->nullable();
+            $table->string('location')->nullable();
+            $table->boolean('activited')->nullable();
             $table->timestamps();
         });
     }
