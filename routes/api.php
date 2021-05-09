@@ -60,3 +60,9 @@ Route::prefix('user')->group(function() {
     Route::get('/all', 'App\Http\Controllers\Api\ProductController@getAll');
  });
 
+ /*******************************************************************
+ * FILES
+ *******************************************************************/
+Route::middleware('auth:api')->prefix('upload')->group(function() {
+    Route::post('/image', 'App\Http\Controllers\Api\FileController@image');
+});
