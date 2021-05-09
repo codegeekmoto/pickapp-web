@@ -16,7 +16,7 @@ class FileController extends Controller {
     {
         $file = $request->file('image');
         $uniqueName  = Carbon::now()->timestamp.'_'.$file->getClientOriginalName();
-        $imageUrl = $request->type.'/'.$uniqueName;
+        $imageUrl = '/'.$request->type.'/'.$uniqueName;
         $file->move($request->type, $uniqueName);
 
         return response()->json([
