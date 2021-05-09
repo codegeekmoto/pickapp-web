@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->double('price')->nullable();
+            $table->string('cover')->nullable();
             $table->integer('num_of_stock')->nullable();
             $table->timestamps();
         });
