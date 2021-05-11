@@ -56,7 +56,7 @@ Route::prefix('user')->group(function() {
  });
 
  Route::middleware('auth:api')->prefix('product')->group(function() {
-    Route::get('/', 'App\Http\Controllers\Api\ProductController@get');
+    Route::post('/', 'App\Http\Controllers\Api\ProductController@get');
     Route::post('/add', 'App\Http\Controllers\Api\ProductController@add');
  });
 
