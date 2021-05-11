@@ -17,10 +17,12 @@ class ProductController extends Controller {
     {
         $validator = Validator::make($request->all(), [
             'store_id' => ['required'],
-            'category_id' => ['required'],
+            'category' => ['required'],
             'name' => ['required'],
             'description' => ['required'],
             'price' => ['required'],
+            'quantity' => ['required'],
+            'cover_url' => ['required'],
             'num_of_stock' => ['required'],
         ]);
         
@@ -35,14 +37,19 @@ class ProductController extends Controller {
 
         $product = new Product();
         $product->store_id = $request->store_id;
-        $product->category_id = $request->category_id;
+        $product->category = $request->category;
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->cover_url = $request->cover_url;
         $product->num_of_stock = $request->num_of_stock;
         $product->save();
 
-        return new ProductResource($product);
+        return response()->json([
+            "status" => "success",
+            "products" => [$product]
+        ]);
     }
 
     public function getAll()
