@@ -46,18 +46,15 @@ Route::prefix('user')->group(function() {
 /*******************************************************************
  * SELLER
  *******************************************************************/
- // Product
- Route::middleware('auth:api')->prefix('product')->group(function() {
-    // Route::post('/add', 'App\Http\Controllers\Api\UserController@updateAddress');
- });
-
  Route::middleware('auth:api')->prefix('store')->group(function() {
     Route::post('/create', 'App\Http\Controllers\Api\StoreController@create');
  });
 
+
  Route::middleware('auth:api')->prefix('product')->group(function() {
     Route::post('/', 'App\Http\Controllers\Api\ProductController@get');
     Route::post('/add', 'App\Http\Controllers\Api\ProductController@add');
+    Route::get('/all/{category}', 'App\Http\Controllers\Api\ProductController@getAll');
  });
 
  /*******************************************************************

@@ -64,4 +64,16 @@ class ProductController extends Controller {
         ]);
     }
 
+    public function getAll(Request $request, $category)
+    {
+        $products = Product::where('num_of_stock', '>', 0)
+            ->where('category', $category)
+            ->get();
+            
+        return response()->json([
+            "status" => "success",
+            "products" => $products
+        ]);
+    }
+
 }
