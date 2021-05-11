@@ -52,10 +52,16 @@ class ProductController extends Controller {
         ]);
     }
 
-    public function getAll()
+    public function get(Request $request)
     {
-        $products = Product::all();
-        return ProductResource::collection($products);
+        $products = Product::where('store_id', $request->store_id)
+            ->where('category', $request->category)
+            ->get();
+            
+        return response()->json([
+            "status" => "success",
+            "products" => $products
+        ]);
     }
 
 }
