@@ -42,6 +42,25 @@
                     <h4>Development on progress...</h6>
                 </div>
             </div>
+
+            <button data-feedbear-button>Suggestions?</button>
+
+          <script>
+
+              !(function(f,d,b,e,a,r,js){f[e]=f[e]||function(){(f[e].q=f[e].q||[]).push(arguments)};r=d.createElement(b),js=d.getElementsByTagName(b)[0];r.id=e;r.src=a;r.async=1;js.parentNode.insertBefore(r,js)})(window,document,"script","FeedBear","https://sdk.feedbear.com/widget.js");
+
+              FeedBear("button", {
+                  element: document.querySelector("[data-feedbear-button]"),
+                  project: "dev",
+                  board: "feature-requests",
+                  placement: "bottom-start", // see the docs
+                  //ssoToken: 'fbear-sso-jfZ6JHaPSA5WzVhy1dEH3kk5',
+                  ssoToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imp1YW4uY3J1ekBleGFtcGxlLmNvbSIsIm5hbWUiOiJKdWFuIENydXoiLCJpYXQiOjE2MjA5OTAwMDB9.OCFE4T9dU-r3cjxhYRdi69cvNeXcBFgM-d215y02bsg' //'fbear-sso-jfZ6JHaPSA5WzVhy1dEH3kk5' // see step 3,
+              });
+
+              console.log('Feedber ', 'feedbear');
+
+          </script>
         </div>
     </body>
 </html>
